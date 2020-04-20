@@ -13,26 +13,38 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _lista() {
-    print(menuProvider.opciones);
-    return ListView(
-      children: _listaItems(),
+    return FutureBuilder(
+      future: menuProvider.cargarData(),
+      //initialData: [],
+      builder: (BuildContext buildContext, AsyncSnapshot snapshot) {
+        return ListView(
+          children: _listaItems(snapshot.data),
+        );
+      },
     );
   }
 
-  List<Widget> _listaItems() {
-    return [
-      ListTile(
-        title: Text('Hola Mundo'),
-      ),
-      ListTile(
-        title: Text('Hola Mundo'),
-      ),
-      ListTile(
-        title: Text('Hola Mundo'),
-      ),
-      ListTile(
-        title: Text('Hola Mundo'),
-      ),
-    ];
+  List<Widget> _listaItems(List<dynamic> data) {
+    List<Widget> listaOpciones = [];
+
+    for (dynamic opt in data) {
+      final tempWidget = ListTile(
+        leading: Icon(
+          Icons.new_releases,
+          color: Colors.blue,
+        ),
+        title: Text(opt['texto']),
+        subtitle: Text('Cualquier cosa'),
+        trailing: Icon(Icons.arrow_forward_ios),
+        onTap: () {
+          print('Lo tocaste');
+        },
+      );
+
+      listaOpciones.add(tempWidget);
+      listaOpciones.add(Divider(color: Colors.blue));
+    }
+
+    return listaOpciones;
   }
 }
