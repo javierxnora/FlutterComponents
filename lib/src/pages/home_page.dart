@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:componentes/providers/menu_provider.dart';
+import 'package:icons_helper/icons_helper.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -30,7 +31,7 @@ class HomePage extends StatelessWidget {
     for (dynamic opt in data) {
       final tempWidget = ListTile(
         leading: Icon(
-          Icons.new_releases,
+          getIconGuessFavorMaterial(name: opt['icon']),
           color: Colors.blue,
         ),
         title: Text(opt['texto']),
