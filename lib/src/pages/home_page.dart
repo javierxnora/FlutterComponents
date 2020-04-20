@@ -19,13 +19,13 @@ class HomePage extends StatelessWidget {
       //initialData: [],
       builder: (BuildContext buildContext, AsyncSnapshot snapshot) {
         return ListView(
-          children: _listaItems(snapshot.data),
+          children: _listaItems(snapshot.data, buildContext),
         );
       },
     );
   }
 
-  List<Widget> _listaItems(List<dynamic> data) {
+  List<Widget> _listaItems(List<dynamic> data, BuildContext context) {
     List<Widget> listaOpciones = [];
 
     for (dynamic opt in data) {
@@ -38,7 +38,7 @@ class HomePage extends StatelessWidget {
         subtitle: Text('Cualquier cosa'),
         trailing: Icon(Icons.arrow_forward_ios),
         onTap: () {
-          print('Lo tocaste');
+          Navigator.pushNamed(context, opt['ruta']);
         },
       );
 
