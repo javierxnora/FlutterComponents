@@ -8,18 +8,6 @@ class InputPage extends StatefulWidget {
 }
 
 class _InputPageState extends State<InputPage> {
-  String _nombre = "Javier Quinteros";
-  int _countNombre = 0;
-
-  String _correo = "javier@nora.cl";
-  int _countCorreo = 0;
-
-  String _password = "********";
-  int _countPassword = 0;
-
-  String _fecha = "";
-  TextEditingController _datePickerController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,14 +24,19 @@ class _InputPageState extends State<InputPage> {
           _crearPassword(),
           SizedBox(height: 20),
           _crearFecha(context),
+          SizedBox(height: 20),
+          _crearDropDown(),
         ],
       ),
     );
   }
 
+  /// Input Nombre
+  String _nombre = "Javier Quinteros";
+  int _countNombre = 0;
+
   Widget _crearInput() {
     return TextField(
-      autofocus: true,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
@@ -63,10 +56,13 @@ class _InputPageState extends State<InputPage> {
     );
   }
 
+  /// Input Correo
+  String _correo = "javier@nora.cl";
+  int _countCorreo = 0;
+
   Widget _crearEmail() {
     return TextField(
       keyboardType: TextInputType.emailAddress,
-      autofocus: true,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         counter: Text("Letras $_countCorreo"),
@@ -85,10 +81,13 @@ class _InputPageState extends State<InputPage> {
     );
   }
 
+  /// Input Password
+  String _password = "********";
+  int _countPassword = 0;
+
   Widget _crearPassword() {
     return TextField(
       obscureText: true,
-      autofocus: true,
       decoration: InputDecoration(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         counter: Text("Letras $_countPassword"),
@@ -106,6 +105,10 @@ class _InputPageState extends State<InputPage> {
       },
     );
   }
+
+  /// Input DatePicker
+  String _fecha = "";
+  TextEditingController _datePickerController = TextEditingController();
 
   Widget _crearFecha(BuildContext context) {
     return TextField(
@@ -142,5 +145,45 @@ class _InputPageState extends State<InputPage> {
             DateFormat('dd-MM-yyyy').format(pickedDate);
       });
     }
+  }
+
+  /// DropdownMenu
+  String _opcionSeleccionada = 'Volar';
+
+  List _poderes = ['Volar', 'Rayos X', 'Aliento de Hielo', 'Super Fuerza'];
+
+  List<DropdownMenuItem<String>> getOpcionesPoderes() {
+    List<DropdownMenuItem<String>> listaPoderes = List();
+
+    _poderes.forEach(
+      (poder) {
+        listaPoderes.add(
+          DropdownMenuItem(
+            child: Text(poder),
+            value: poder,
+          ),
+        );
+      },
+    );
+
+    return listaPoderes;
+  }
+
+  Widget _crearDropDown() {
+    return Row(
+      children: <Widget>[
+        Icon(Icons.select_all),
+        SizedBox(width: 30),
+        DropdownButton(
+          items: getOpcionesPoderes(),
+          value: _opcionSeleccionada,
+          onChanged: (opt) {
+            setState(() {
+              _opcionSeleccionada = opt;
+            });
+          },
+        ),
+      ],
+    );
   }
 }
