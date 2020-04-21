@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class InputPage extends StatefulWidget {
   @override
@@ -16,6 +17,9 @@ class _InputPageState extends State<InputPage> {
   String _password = "********";
   int _countPassword = 0;
 
+  String _fecha = "";
+  TextEditingController _datePickerController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +34,8 @@ class _InputPageState extends State<InputPage> {
           _crearEmail(),
           SizedBox(height: 20),
           _crearPassword(),
+          SizedBox(height: 20),
+          _crearFecha(context),
         ],
       ),
     );
@@ -57,7 +63,7 @@ class _InputPageState extends State<InputPage> {
     );
   }
 
-  _crearEmail() {
+  Widget _crearEmail() {
     return TextField(
       keyboardType: TextInputType.emailAddress,
       autofocus: true,
@@ -79,7 +85,7 @@ class _InputPageState extends State<InputPage> {
     );
   }
 
-  _crearPassword() {
+  Widget _crearPassword() {
     return TextField(
       obscureText: true,
       autofocus: true,
@@ -99,5 +105,42 @@ class _InputPageState extends State<InputPage> {
         });
       },
     );
+  }
+
+  Widget _crearFecha(BuildContext context) {
+    return TextField(
+      controller: _datePickerController,
+      enableInteractiveSelection: false,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+        hintText: "Introduzca su fecha de nacimiento.",
+        labelText: "Fecha de nacimiento",
+        helperText: "Ej: $_fecha",
+        suffixIcon: Icon(Icons.perm_contact_calendar),
+        icon: Icon(Icons.calendar_today),
+      ),
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+        _pickDate(context);
+      },
+    );
+  }
+
+  _pickDate(BuildContext context) async {
+    DateTime pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2018),
+      lastDate: DateTime(3000),
+      locale: Locale('es'),
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        _fecha = pickedDate.toString();
+        _datePickerController.text =
+            DateFormat('dd-MM-yyyy').format(pickedDate);
+      });
+    }
   }
 }
