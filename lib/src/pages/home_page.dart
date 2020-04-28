@@ -35,7 +35,7 @@ class HomePage extends StatelessWidget {
           color: Colors.blue,
         ),
         title: Text(opt['texto']),
-        subtitle: Text('Cualquier cosa'),
+        subtitle: Text(opt['sub-texto']),
         trailing: Icon(Icons.arrow_forward_ios),
         onTap: () {
           Navigator.pushNamed(context, opt['ruta']);
